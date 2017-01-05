@@ -1,1 +1,1 @@
-"# spring-boot-demo-mybatis" 
+Spring BootとMyBatisでWebアプリを作るデモ兼テンプレート。
