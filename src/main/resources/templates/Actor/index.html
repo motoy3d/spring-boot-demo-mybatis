@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_temp :: header ('ACTOR')"> <!-- ヘッダーインクルード ################################ -->
+  <title th:text="${title}">俳優リスト</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="../../static/vendor/bootstrap-3.3.5/css/bootstrap.min.css" th:href="@{/vendor/bootstrap-3.3.5/css/bootstrap.min.css}" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="container">
+    <div class="page-header">
+      <h1 th:utext="#{actor.index.title}">俳優</h1>
+      <p th:if="${emptyMessage}" th:text="${emptyMessage}">message</p>
+      <p th:if="${errorMessage}" th:text="${errorMessage}">error message</p>
+      <p th:if="${deleteMessage}" th:text="${deleteMessage}">delete message</p>
+    </div>
+
+    <div th:replace="_temp :: nav"> <!-- ナビインクルード ################################ -->
+      <div class="col-md-12">
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="/actor" th:href="@{/actor}" th:utext="#{actor.nav.index}">一覧</a></li>
+          <li role="presentation"><a href="/actor/create" th:href="@{/actor/create}" th:utext="#{actor.nav.create}">登録</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <form action="/actor/search" th:action="@{/actor/search}" method="get">
+          <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Search for..." />
+            <span class="input-group-btn">
+              <input class="btn btn-default" type="submit" value="Search!" />
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th th:utext="#{actor.id}">id</th>
+              <th th:utext="#{actor.name}">name</th>
+              <th th:utext="#{actor.height}">height</th>
+              <th th:utext="#{actor.blood}">blood</th>
+              <th th:utext="#{actor.birthday}">birthday</th>
+              <th th:utext="#{actor.birthplace}">birthplace</th>
+              <th th:utext="#{actor.update_at}">update_at</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="item,iterStat : ${list}">
+              <td>
+                <a class="btn btn-default" href="/actor/${item.id}" th:href="@{/actor/{id}(id=${item.id})}" th:text="${item.id}">1</a>
+              </td>
+              <td th:text="${item.name}">高倉　健</td>
+              <td th:text="${item.height != null}? ${item.height} : '-'">180</td>
+              <td th:text="${item.blood != null}? ${item.blood} : '-'">A</td>
+              <td th:text="${item.birthday != null}? ${#dates.format(item.birthday,'yyyy-MM-dd')} : '-'">1980-01-01</td>
+              <td th:text="(${item.birthplaceId != null}? ${item.birthplaceId} + ':' : '') + (${item.prefName != null }? ${item.prefName} : '(unknown)')">1:北海道</td>
+              <td th:text="${item.updateAt}">2016-11-11 12:30:40</td>
+              <td>
+                <a class="btn btn-warning" href="/actor/delete/${item.id}" th:href="@{/actor/delete/{id}(id=${item.id})}">削除</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div th:replace="_temp :: footer"> <!-- フッターインクルード ################################ -->
+      <div th:utext="#{footer.text}">original footer</div>
+    </div>
+  </div>
+
+  <div th:include="_temp :: script"> <!-- scriptインクルード ################################ -->
+    <script src="/vendor/jquery/jquery-1.11.3.js" th:src="@{/vendor/jquery/jquery-1.11.3.js}"></script>
+    <script src="/vendor/bootstrap-3.3.5/js/bootstrap.js" th:src="@{/vendor/bootstrap-3.3.5/js/bootstrap.js}"></script>
+  </div>
+</body>
+</html>

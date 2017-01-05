@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.actor.mapper.ActorMapper">
+	<select id="findAll" resultType="com.example.actor.model.Actor">
+		select
+		a.*
+		, p.name prefName
+		from actor a left join prefecture p on a.birthplace_id = p.id
+		order by a.id
+	</select>
+
+	<select id="findOne" resultType="com.example.actor.model.Actor">
+		select a.*, p.name prefName
+		from actor a left join prefecture p on a.birthplace_id = p.id
+		where a.id = #{id}
+	</select>
+
+	<select id="findActors" resultType="com.example.actor.model.Actor">
+		select *
+		from actor a
+		where a.name like CONCAT('%', #{keyword}, '%')
+		order by a.id asc
+	</select>
+
+	<update id="update">
+		update actor set
+		  name=#{name}
+		, height=#{height}
+		, blood=#{blood}
+		, birthday=#{birthday}
+		, birthplace_id=#{birthplaceId}
+		, update_at=now()
+	</update>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into actor values(default, #{name}, #{height}, #{blood},
+		#{birthday}, #{birthplaceId}, now())
+	</insert>
+
+	<delete id="delete">
+		delete from actor where id = #{id}
+	</delete>
+</mapper>

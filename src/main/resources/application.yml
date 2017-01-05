@@ -1,0 +1,40 @@
+# EMBEDDED SERVER CONFIGURATION (ServerProperties)
+server:
+  port: 9000
+
+security:
+  user:
+    name: motoi
+    password: kataoka
+  
+spring:
+# THYMELEAF (ThymeleafAutoConfiguration)
+  thymeleaf:
+    enabled: true
+    cache: false
+# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/actor
+    username: root
+    password: root
+
+# INTERNATIONALIZATION (MessageSourceAutoConfiguration)
+  messages:
+    basename: messages
+    cache-seconds: -1
+    encoding: UTF-8
+
+# ENDPOINTS (AbstractEndpoint subclasses)
+endpoints:
+  enabled: true
+
+# error
+#error:
+#  whitelabel:
+#    enabled: false
+
+# MyBatis
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
